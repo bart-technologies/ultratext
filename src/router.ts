@@ -6,7 +6,7 @@ function isSameOrigin(url: string): boolean {
   }
 }
 
-export function initRouter(loadFn: (url: string, push: boolean) => Promise<void>): void {
+export function initRouter(loadFn: (url: string) => Promise<void>): void {
   document.addEventListener('click', (e) => {
     const a = (e.target as Element).closest('a');
     if (!a) return;
@@ -17,10 +17,6 @@ export function initRouter(loadFn: (url: string, push: boolean) => Promise<void>
     if (!isSameOrigin(href)) return;
 
     e.preventDefault();
-    loadFn(new URL(href, location.href).href, true);
-  });
-
-  window.addEventListener('popstate', (e) => {
-    if (e.state?.u) loadFn(location.href, false);
+    loadFn(new URL(href, location.href).href);
   });
 }
