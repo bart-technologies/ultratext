@@ -1,4 +1,5 @@
 import { isUtml, extractTitle, extractBody, execScripts } from './dom.js';
+import { processComponents } from './components.js';
 import { resolveImports } from './import.js';
 import { initRouter } from './router.js';
 
@@ -67,6 +68,7 @@ async function loadUtml(url: string, replace?: boolean): Promise<void> {
 function applyContent(title: string | null, body: string): void {
   if (title) document.title = title;
   document.body.innerHTML = body;
+  processComponents(document.body);
   execScripts(document.body);
 }
 
